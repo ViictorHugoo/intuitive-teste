@@ -1,24 +1,32 @@
 from selenium import webdriver
-from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.common.by import By
-from selenium.webdriver.support.wait import WebDriverWait as WDW
-from selenium.webdriver.support import expected_conditions as EC
+from selenium.webdriver.common.action_chains import ActionChains
 import urllib.request
+import zipfile
+import os 
 
 
-
-driver = webdriver.Edge()
+driver = webdriver.Chrome()
 
 driver.get("https://www.gov.br/ans/pt-br/acesso-a-informacao/participacao-da-sociedade/atualizacao-do-rol-de-procedimentos")
 
-cookies = driver.find_element(By.CLASS_NAME, 'Fechar overlay')
-cookies.click()
+windowSize = driver.get_window_size()
+x = windowSize['width']//2
+y = windowSize['height']//2
 
-anexoI = driver.find_element(By.LINK_TEXT, 'ANEXO I')
-anexoII = driver.find_element(By.LINK_TEXT, 'ANEXO I')
+ActionChains(driver).move_by_offset(x, y).click().perform()
 
+anexoI = driver.find_element(By.LINK_TEXT, 'Anexo I.')
+anexoII = driver.find_element(By.LINK_TEXT, 'Anexo II.')
 
-print(anexoI)
+urllib.request.urlretrieve(anexoI.get_attribute('href'), "anexoI.pdf")
+urllib.request.urlretrieve(anexoII.get_attribute('href'), "anexoII.pdf")
 
-## // urllib.request.urlretrieve(anexoI, "anexoI.PDF")
-## // urllib.request.urlretrieve(anexoII, "anexoII.PDF")
+driver.close()
+
+with zipfile.ZipFile('arquivo.zip', 'w', zipfile.ZIP_DEFLATED) as zipf:
+    zipf.write('anexoI.pdf')
+    zipf.write('anexoII.pdf')
+    
+os.remove('anexoI.pdf')
+os.remove('anexoII.pdf')
