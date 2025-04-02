@@ -6,23 +6,20 @@ import zipfile
 import os 
 
 
-driver = webdriver.Chrome()
+with webdriver.Chrome() as driver:
+    driver.get("https://www.gov.br/ans/pt-br/acesso-a-informacao/participacao-da-sociedade/atualizacao-do-rol-de-procedimentos")
 
-driver.get("https://www.gov.br/ans/pt-br/acesso-a-informacao/participacao-da-sociedade/atualizacao-do-rol-de-procedimentos")
+    windowSize = driver.get_window_size()
+    x = windowSize['width']//2
+    y = windowSize['height']//2
 
-windowSize = driver.get_window_size()
-x = windowSize['width']//2
-y = windowSize['height']//2
+    ActionChains(driver).move_by_offset(x, y).click().perform()
 
-ActionChains(driver).move_by_offset(x, y).click().perform()
+    anexoI = driver.find_element(By.LINK_TEXT, 'Anexo I.')
+    anexoII = driver.find_element(By.LINK_TEXT, 'Anexo II.')
 
-anexoI = driver.find_element(By.LINK_TEXT, 'Anexo I.')
-anexoII = driver.find_element(By.LINK_TEXT, 'Anexo II.')
-
-urllib.request.urlretrieve(anexoI.get_attribute('href'), "anexoI.pdf")
-urllib.request.urlretrieve(anexoII.get_attribute('href'), "anexoII.pdf")
-
-driver.close()
+    urllib.request.urlretrieve(anexoI.get_attribute('href'), "anexoI.pdf")
+    urllib.request.urlretrieve(anexoII.get_attribute('href'), "anexoII.pdf")
 
 with zipfile.ZipFile('arquivo.zip', 'w', zipfile.ZIP_DEFLATED) as zipf:
     zipf.write('anexoI.pdf')
