@@ -21,7 +21,7 @@ with webdriver.Chrome() as driver:
     urllib.request.urlretrieve(anexoI.get_attribute('href'), "anexoI.pdf")
     urllib.request.urlretrieve(anexoII.get_attribute('href'), "anexoII.pdf")
 
-with zipfile.ZipFile('arquivo.zip', 'w', zipfile.ZIP_DEFLATED) as zipf:
+with zipfile.ZipFile('anexos.zip', 'w', zipfile.ZIP_DEFLATED) as zipf:
     zipf.write('anexoI.pdf')
     zipf.write('anexoII.pdf')
     
