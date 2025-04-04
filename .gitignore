@@ -1,0 +1,15 @@
+
+.vscode/*
+!.vscode/extensions.json
+.idea
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+*.tsbuildinfo
+
+
+etapa4/vue-ans-interface/node_modules/.package-lock.json
+etapa4/vue-ans-interface/node_modules/*
+etapa4/vue-ans-interface/node_modules/.bin/ansi-html.cmd
