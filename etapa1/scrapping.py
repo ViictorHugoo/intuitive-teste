@@ -25,5 +25,5 @@ with zipfile.ZipFile('anexos.zip', 'w', zipfile.ZIP_DEFLATED) as zipf:
     zipf.write('anexoI.pdf')
     zipf.write('anexoII.pdf')
     
-#os.remove('anexoI.pdf')
+os.remove('anexoI.pdf')
 os.remove('anexoII.pdf')
